@@ -6,16 +6,17 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8086:8080"
     environment:
       - DB_HOST=postgres
       - DB_PORT=5432
       - DB_USER=postgres
       - DB_PASSWORD=postgres
-      - DB_NAME=go_crud_api
+      - DB_NAME=postgres
       - DB_SSLMODE=disable
       - PORT=8080
-      - ENV=development
+      - ENV=production
+      - CONFIG_PATH=./internal/config/config.yaml
     depends_on:
       - postgres
     restart: unless-stopped
@@ -23,11 +24,11 @@ services:
   postgres:
     image: postgres:15-alpine
     ports:
-      - "5432:5432"
+      - "5436:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=go_crud_api
+      - POSTGRES_DB=postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped

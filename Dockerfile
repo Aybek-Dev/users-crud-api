@@ -1,10 +1,12 @@
-FROM golang:1.22-alpine AS builder
+FROM golang:1.24.2-alpine AS builder
 
 WORKDIR /app
 
 RUN apk add --no-cache git
 
 COPY go.mod go.sum ./
+
+COPY internal/config/config.yaml ./internal/config/config.yaml
 
 RUN go mod download
 
@@ -17,6 +19,7 @@ FROM alpine:latest
 WORKDIR /app
 
 COPY --from=builder /app/main .
+COPY --from=builder /app/internal/config/config.yaml ./internal/config/config.yaml
 
 EXPOSE 8080
 

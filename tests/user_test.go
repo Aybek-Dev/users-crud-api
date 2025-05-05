@@ -15,7 +15,7 @@ type MockUserRepository struct {
 	mock.Mock
 }
 
-func (m *MockUserRepository) Create(user *models.User) error {
+func (m *MockUserRepository) CreateUser(user *models.User) error {
 	args := m.Called(user)
 	// Set ID and Created fields to simulate database behavior
 	user.ID = uuid.New()
@@ -23,19 +23,19 @@ func (m *MockUserRepository) Create(user *models.User) error {
 	return args.Error(0)
 }
 
-func (m *MockUserRepository) GetByID(id uuid.UUID) (*models.User, error) {
+func (m *MockUserRepository) GetUser(id uuid.UUID) (*models.User, error) {
 	args := m.Called(id)
 	if args.Get(0) == nil {
 		return nil, args.Error(1)
 	}
 	return args.Get(0).(*models.User), args.Error(1)
 }
-func (m *MockUserRepository) Update(user *models.User) error {
+func (m *MockUserRepository) UpdateUser(user *models.User) error {
 	args := m.Called(user)
 	return args.Error(0)
 }
 
-func (m *MockUserRepository) Delete(id uuid.UUID) error {
+func (m *MockUserRepository) DeleteUser(id uuid.UUID) error {
 	args := m.Called(id)
 	return args.Error(0)
 }

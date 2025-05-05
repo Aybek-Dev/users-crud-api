@@ -17,16 +17,26 @@ import (
 
 func main() {
 	// Load configuration
+	log.Println("Запуск приложения...")
+	currentDir, err := os.Getwd()
+	if err != nil {
+		log.Printf("Ошибка при получении текущей директории: %v", err)
+	} else {
+		log.Printf("Текущая рабочая директория: %s", currentDir)
+	}
+
+	// Загружаем конфигурацию
 	cfg, err := config.NewConfig()
 	if err != nil {
-		log.Fatalf("Failed to load configuration: %v", err)
+		log.Fatalf("Не удалось загрузить конфигурацию: %v", err)
 	}
 
-	// Set Gin mode
+	// Установка режима Gin
 	if os.Getenv("ENV") == "production" {
 		gin.SetMode(gin.ReleaseMode)
+	} else {
+		gin.SetMode(gin.DebugMode)
 	}
-
 	// Initialize router
 	router := gin.Default()
 
